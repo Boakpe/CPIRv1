@@ -1,0 +1,4 @@
+0 Carteiro
+1 Pessoa
+2 Ambiente externo
+3 Ambiente interno
