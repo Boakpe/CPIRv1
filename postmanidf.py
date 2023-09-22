@@ -1,5 +1,6 @@
 from keras.models import load_model
 import cv2
+import pytesseract
 import numpy as np
 
 def camera():
@@ -53,6 +54,7 @@ def camera():
 
         if carteiro_index == 10:
             print("Carteiro detectado!")
+            
             return True
 
         # Listen to the keyboard for presses.
@@ -61,6 +63,31 @@ def camera():
         # 27 is the ASCII for the esc key on your keyboard.
         if keyboard_input == 27:
             break
+        
+    # Caso tenha achado o carteiro, procura pelo pacote
+    if carteiro_index == 10:
+        while True:            
+            # Grab the webcamera's image.
+            ret, image = camera.read()
+
+            # Resize the raw image into (224-height,224-width) pixels
+            image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
+
+            # Show the image in a window
+            cv2.imshow("Webcam Image", image)
+
+            # Make the image a numpy array and reshape it to the models input shape.
+            image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
+
+            # Normalize the image array
+            image = (image / 127.5) - 1
+            
+            # Insira aqui a mesma logica anterior para identificar o pacote
+            
+            text = pytesseract.image_to_string(image)
+            print(text)
+    
+    
 
     camera.release()
     cv2.destroyAllWindows()
