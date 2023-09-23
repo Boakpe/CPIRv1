@@ -1,6 +1,5 @@
 from keras.models import load_model
 import cv2
-import pytesseract
 import numpy as np
 
 def camera():
@@ -17,7 +16,6 @@ def camera():
     camera = cv2.VideoCapture(0)
 
     carteiro_index = 0
-    flagCarteiro = False
     while True:
         # Grab the webcamera's image.
         ret, image = camera.read()
@@ -33,42 +31,36 @@ def camera():
 
         # Normalize the image array
         image = (image / 127.5) - 1
-        
-        if flagCarteiro:     
-            text = pytesseract.image_to_string(image)
-            print(text)
 
+        # Predicts the model
+        prediction = model.predict(image)
+        index = np.argmax(prediction)
+        class_name = class_names[index]
+        confidence_score = prediction[0][index]
+
+        # Print prediction and confidence score
+        print("Class:", class_name[2:], end="")
+        print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+
+        # Print prediction and confidence score
+        print("Class:", class_name[2:], end="")
+        print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+
+        if class_name[2:].strip() == "Carteiro":
+            carteiro_index += 1
         else:
-            # Predicts the model
-            prediction = model.predict(image)
-            index = np.argmax(prediction)
-            class_name = class_names[index]
-            confidence_score = prediction[0][index]
+            carteiro_index = 0
 
-            # Print prediction and confidence score
-            print("Class:", class_name[2:], end="")
-            print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        if carteiro_index == 10:
+            print("Carteiro detectado!")
+            return True
 
-            # Print prediction and confidence score
-            print("Class:", class_name[2:], end="")
-            print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        # Listen to the keyboard for presses.
+        keyboard_input = cv2.waitKey(200)
 
-            if class_name[2:].strip() == "Carteiro":
-                carteiro_index += 1
-            else:
-                carteiro_index = 0
-
-            if carteiro_index == 10:
-                print("Carteiro detectado!")
-                flagCarteiro = True
-                #return True
-
-            # Listen to the keyboard for presses.
-            keyboard_input = cv2.waitKey(200)
-
-            # 27 is the ASCII for the esc key on your keyboard.
-            if keyboard_input == 27:
-                break  
+        # 27 is the ASCII for the esc key on your keyboard.
+        if keyboard_input == 27:
+            break
 
     camera.release()
     cv2.destroyAllWindows()
