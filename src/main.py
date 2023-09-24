@@ -7,10 +7,14 @@ try:
     print("Câmera inicializada com sucesso.")
     tts.cumprimentos()
     tentativas = 0
-    """ while not tidf.camera() and tentativas < 4:
-        tts.erro()
-        tentativas += 1 """
-    
+    imagem_processada = 0
+
+    while imagem_processada = 0 and tentativas < 4:
+        imagem_processada = tidf.capturar_imagem_webcam
+        if imagem_processada = 0:
+            tts.erro()
+            tentativas += 1
+
     if tentativas == 4:
         tts.tentativasexcedidas()
     else:

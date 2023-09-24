@@ -28,8 +28,10 @@ class EtiquetaProcessor:
         if ret:
             cv2.imwrite(self.image_path, frame)  # Salva o quadro como uma imagem
             capture.release()  # Libera a câmera
+            return 1
         else:
             print("Não foi possível capturar a imagem da webcam.")
+            return 0
 
     def processar_etiqueta(self):
         self.capturar_imagem_webcam()
