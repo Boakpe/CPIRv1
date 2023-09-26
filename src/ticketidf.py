@@ -5,6 +5,8 @@ import time
 import cv2
 import json
 
+imagem_processada_global = 0
+
 class EtiquetaProcessor:
     def __init__(self):
         self.image_path = "images/captured_image.jpg"
@@ -28,14 +30,13 @@ class EtiquetaProcessor:
         if ret:
             cv2.imwrite(self.image_path, frame)  # Salva o quadro como uma imagem
             capture.release()  # Libera a câmera
-            return 1
+            imagem_processada_global = 1
         else:
             print("Não foi possível capturar a imagem da webcam.")
-            return 0
+            imagem_processada_global = 0
 
     def processar_etiqueta(self):
-        self.capturar_imagem_webcam()
-        
+
         img = Image.open(self.image_path)
         text = tess.image_to_string(img)
 
