@@ -44,5 +44,3 @@ def tentativasexcedidas() -> None:
         model="eleven_multilingual_v2"
         )
     play(audio)
-
-cumprimentos()

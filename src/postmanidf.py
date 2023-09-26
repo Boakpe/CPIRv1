@@ -64,5 +64,3 @@ def camera():
 
     camera.release()
     cv2.destroyAllWindows()
-
-camera()
