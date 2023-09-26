@@ -29,6 +29,16 @@ git clone https://github.com/Boakpe/CPIRv1.git
 
 3. Execute o programa principal:
 
-2. Certifique-se de que possui todas as bibliotecas mencionadas instaladas.
+4. Certifique-se de que possui todas as bibliotecas mencionadas instaladas.
 
-3. Execute o programa principal: app.py
+5. Execute o programa principal: app.py
+
+6. Quando for identificado um carteiro será solicitado por uma voz que você tire uma foto da etiqueta da encomenda.
+
+7. Aparecera uma janela com a imagem da câmera, posicione a etiqueta no centro da imagem e tire a foto apertando a tecla "space".
+
+8. Caso o programa não consiga identificar o destinatário, será solicitado que você digite o nome do destinatário.
+
+9. O programa irá salvar o nome do destinatário, a data e a hora da entrega em um arquivo .json.
+
+10. O programa espera 20 segundos para que o carteiro saia da imagem e então volta a procurar por carteiro.
