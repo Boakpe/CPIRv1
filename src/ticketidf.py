@@ -58,20 +58,23 @@ class EtiquetaProcessor:
         destNome = destNome.strip()
         destNome = destNome[:destNome.find("\n")]
 
-        dict = {
-            "Nome": destNome,
-            "Horario": time.strftime("%H:%M:%S"),
-            "Data": time.strftime("%d/%m/%Y")
-        }
+        # Lê os nomes dos moradores do arquivo JSON
+        with open('database/residents.json', 'r') as residents_file:
+            residents_data = json.load(residents_file)
 
-        json_filename = f'logs/{destNome}_{time.strftime("%d-%m-%Y_%H-%M-%S")}.json'
+        # Verifica se destNome está na lista de moradores
+        if destNome in residents_data["Name"]:
+            dict = {
+                "Nome": destNome,
+                "Horario": time.strftime("%H:%M:%S"),
+                "Data": time.strftime("%d/%m/%Y")
+            }
 
-        with open(json_filename, 'w') as json_file:
-            json.dump(dict, json_file, indent=4, ensure_ascii=False)
-        
-        return json_filename
+            json_filename = f'logs/{destNome}_{time.strftime("%d-%m-%Y_%H-%M-%S")}.json'
 
-if __name__ == "__main__":
-    etiqueta_processor = EtiquetaProcessor()
-    json_filename = etiqueta_processor.processar_etiqueta()
-    print(f'JSON criado: {json_filename}')
+            with open(json_filename, 'w') as json_file:
+                json.dump(dict, json_file, indent=4, ensure_ascii=False)
+            
+            return json_filename
+        else:
+            return None
