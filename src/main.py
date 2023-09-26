@@ -1,15 +1,16 @@
 import postmanidf as pmidf
 import texttospeech as tts
-import ticketidf as tidf
+from ticketidf import EtiquetaProcessor
 
 try: 
     pmidf.camera()
     print("Câmera inicializada com sucesso.")
+    etiqueta_processor = EtiquetaProcessor()
     tts.cumprimentos()
     tentativas = 0
-    """ while not tidf.camera() and tentativas < 4:
+    while etiqueta_processor.processar_etiqueta() is None and tentativas < 4:
         tts.erro()
-        tentativas += 1 """
+        tentativas += 1
     
     if tentativas == 4:
         tts.tentativasexcedidas()
