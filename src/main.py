@@ -1,7 +1,7 @@
 import postmanidf as pmidf
 import texttospeech as tts
 import ticketidf as tidf
-import aguardar_botao from interaction
+from interaction import aguardar_botao 
 
 try: 
     pmidf.camera()
@@ -10,9 +10,9 @@ try:
     tentativas = 0
     tidf.imagem_capturada_global = 0
 
-    while tidf.imagem_capturada_global = 0 and tentativas < 4:
+    while tidf.imagem_capturada_global == 0 and tentativas < 4:
         tidf.imagem_capturada_global = aguardar_botao()
-        if tidf.imagem_capturada_global = 0:
+        if tidf.imagem_capturada_global == 0:
             tts.erro()
             tentativas += 1
 
