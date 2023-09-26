@@ -1,18 +1,29 @@
 import time
-from elevenlabs import clone, generate, play, set_api_key
-from elevenlabs.api import History
+from elevenlabs import generate, play, set_api_key
 
 set_api_key("56662a0794b219b1d16af5d26028d65f")
 
-def cumprimentos() -> None:
+def periodo_do_dia(flag_artigo) -> str:
     periodo_do_dia = time.localtime().tm_hour
     if 6 <= periodo_do_dia < 12:
         periodo_do_dia = "Bom dia"
+        if flag_artigo == True:
+            periodo_do_dia = "um bom dia"
     elif 12 <= periodo_do_dia < 18:
         periodo_do_dia = "Boa tarde"
+        if flag_artigo == True:
+            periodo_do_dia = "uma boa tarde"
     else:
         periodo_do_dia = "Boa noite"
-    mensagem = f"{periodo_do_dia}, por favor tire a foto da etiqueta para identificação do destinatário."
+        if flag_artigo == True:
+            periodo_do_dia = "uma boa noite"
+    return periodo_do_dia
+    
+    
+
+def cumprimentos() -> None:
+    
+    mensagem = f"{periodo_do_dia(False)}, por favor tire a foto da etiqueta para identificação do destinatário."
     audio = generate(
         text=mensagem,
         voice="Michael",
@@ -30,7 +41,7 @@ def erro() -> None:
     play(audio)
 
 def sucesso() -> None: 
-    mensagem = "A etiqueta foi lida com sucesso, por favor coloque o objeto na caixa."
+    mensagem = f"A etiqueta foi lida com sucesso, por favor coloque o objeto na caixa e tenha {periodo_do_dia(True)}."
     audio = generate(
         text=mensagem,
         voice="Michael",

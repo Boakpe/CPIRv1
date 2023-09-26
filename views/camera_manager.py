@@ -3,48 +3,44 @@ import cv2
 import numpy as np
 
 def camera():
-    # Disable scientific notation for clarity
+    # Desativa a notação científica para maior clareza
     np.set_printoptions(suppress=True)
 
-    # Load the model
+    # Carrega o modelo
     model = load_model("models/keras_model.h5", compile=False)
 
-    # Load the labels
+    # Carrega os rótulos (labels)
     class_names = open("models/labels.txt", "r").readlines()
 
-    # CAMERA can be 0 or 1 based on default camera of your computer
+    # A CAMERA pode ser 0 ou 1, dependendo da câmera padrão do seu computador
     camera = cv2.VideoCapture(0)
 
     carteiro_index = 0
     while True:
-        # Grab the webcamera's image.
+        # Captura a imagem da webcam
         ret, image = camera.read()
 
-        # Resize the raw image into (224-height,224-width) pixels
+        # Redimensiona a imagem bruta para (224-altura, 224-largura) pixels
         image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
-        # Show the image in a window
-        cv2.imshow("Webcam Image", image)
+        # Mostra a imagem em uma janela
+        cv2.imshow("Imagem da Webcam", image)
 
-        # Make the image a numpy array and reshape it to the models input shape.
+        # Converte a imagem em um array numpy e a remodela para o formato de entrada do modelo
         image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
 
-        # Normalize the image array
+        # Normaliza o array de imagem
         image = (image / 127.5) - 1
 
-        # Predicts the model
+        # Faz a previsão com o modelo
         prediction = model.predict(image)
         index = np.argmax(prediction)
         class_name = class_names[index]
         confidence_score = prediction[0][index]
 
-        # Print prediction and confidence score
-        print("Class:", class_name[2:], end="")
-        print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
-
-        # Print prediction and confidence score
-        print("Class:", class_name[2:], end="")
-        print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        # Imprime a classe prevista e a pontuação de confiança
+        print("Classe:", class_name[2:], end="")
+        print("Pontuação de Confiança:", str(np.round(confidence_score * 100))[:-2], "%")
 
         if class_name[2:].strip() == "Carteiro":
             carteiro_index += 1
@@ -55,10 +51,10 @@ def camera():
             print("Carteiro detectado!")
             return True
 
-        # Listen to the keyboard for presses.
+        # Aguarda a entrada do teclado
         keyboard_input = cv2.waitKey(200)
 
-        # 27 is the ASCII for the esc key on your keyboard.
+        # 27 é o código ASCII para a tecla Esc no seu teclado
         if keyboard_input == 27:
             break
 
