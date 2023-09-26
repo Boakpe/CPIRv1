@@ -8,6 +8,7 @@ import json
 class EtiquetaProcessor:
     def __init__(self):
         self.image_path = "images/captured_image.jpg"
+        self.camera_active = False  # Indica se a câmera está ativa
 
     def extrair_palavras_em_maiusculas(self, texto):
         palavras_em_maiusculas = re.findall(r'\b[A-Z]+\b', texto)
@@ -21,18 +22,33 @@ class EtiquetaProcessor:
         nova_string = '\n'.join(linhas)
         return nova_string
 
-    def capturar_imagem_webcam(self):
+    def iniciar_camera(self):
+        self.camera_active = True
         capture = cv2.VideoCapture(0)  # Abre a câmera padrão (0) - pode variar dependendo da câmera
-        ret, frame = capture.read()  # Captura um quadro da câmera
+        
+        while self.camera_active:
+            ret, frame = capture.read()  # Captura um quadro da câmera
 
-        if ret:
-            cv2.imwrite(self.image_path, frame)  # Salva o quadro como uma imagem
-            capture.release()  # Libera a câmera
-        else:
-            print("Não foi possível capturar a imagem da webcam.")
+            if ret:
+                cv2.imshow("Camera", frame)  # Exibe a imagem da câmera em uma janela chamada "Camera"
+                
+                key = cv2.waitKey(1)  # Aguarda um pequeno intervalo de tempo (1 ms) e verifica se uma tecla foi pressionada
+                
+                if key == ord("q"):  # Se a tecla "q" for pressionada, encerra a câmera
+                    self.camera_active = False
+                elif key == ord(" "):  # Se a tecla de espaço for pressionada, tire a foto
+                    cv2.imwrite(self.image_path, frame)  # Salva o quadro como uma imagem
+                    self.camera_active = False
+                
+            else:
+                print("Não foi possível capturar a imagem da webcam.")
+                break
+
+        capture.release()
+        cv2.destroyAllWindows()  # Fecha todas as janelas abertas pelo OpenCV
 
     def processar_etiqueta(self):
-        self.capturar_imagem_webcam()
+        self.iniciar_camera()
         
         img = Image.open(self.image_path)
         text = tess.image_to_string(img)
