@@ -2,6 +2,8 @@ import time
 from elevenlabs import clone, generate, play, set_api_key
 from elevenlabs.api import History
 
+set_api_key("56662a0794b219b1d16af5d26028d65f")
+
 def cumprimentos() -> None:
     periodo_do_dia = time.localtime().tm_hour
     if 6 <= periodo_do_dia < 12:

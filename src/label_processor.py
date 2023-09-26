@@ -5,7 +5,7 @@ import time
 import cv2
 import json
 
-class EtiquetaProcessor:
+class LabelProcessor:
     def __init__(self):
         self.image_path = "images/captured_image.jpg"
         self.camera_active = False  # Indica se a câmera está ativa

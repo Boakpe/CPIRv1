@@ -1,20 +1,21 @@
-import postmanidf as pmidf
-import texttospeech as tts
-from ticketidf import EtiquetaProcessor
+import camera_manager as cm
+import speech_manager as sm
+from label_processor import LabelProcessor as lp
 
 try: 
-    pmidf.camera()
+    cm.camera()
     print("Câmera inicializada com sucesso.")
-    etiqueta_processor = EtiquetaProcessor()
-    tts.cumprimentos()
+    etiqueta_processor = lp()
+    sm.cumprimentos()
     tentativas = 0
     while etiqueta_processor.processar_etiqueta() is None and tentativas < 4:
-        tts.erro()
+        sm.erro()
         tentativas += 1
     
     if tentativas == 4:
-        tts.tentativasexcedidas()
+        sm.tentativasexcedidas()
     else:
-        tts.sucesso()
-except:
+        sm.sucesso()
+except Exception as e:
     print("Erro inesperado, o programa será reiniciado.")
+    print(e)
