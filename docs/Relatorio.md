@@ -13,8 +13,8 @@ Dentre os desafios, os que mais se destacam são:
         > A solução foi utilizar de máquinas virtuais para que o sistema virtual fosse consistente em todas as máquinas e na versão em que não eram encontrados problemas.
 
 - Detecção de texto:
-    - Enquanto a ideia inicial era que o texto do pacote fosse lido pela camêra da mesma maneira que o carteiro é identificado, isso se provou uma tarefa acima do escopo de nossas habilidades atuais.
-        > A solução foi emular o pacote por meio de uma foto previamente selecionada (3 estão disponíveis para teste) como se o robô tivesse tirado uma foto das informações do pacote e então interpreta-se elas.
+    - Enquanto a ideia inicial era que o texto do pacote fosse lido pela camêra da mesma maneira que o carteiro é identificado (em tempo real, sem precisa tirar uma foto), isso se provou uma tarefa acima do escopo de nossas habilidades atuais.
+        > A solução foi emular o pacote por meio de uma foto previamente selecionada (2 estão disponíveis para teste) como se o robô tivesse tirado uma foto das informações do pacote e então interpreta-se elas.
 
         > Também foi implementado a função que lê por meio da câmera as informaçãos do pacote. No entanto, não é tão eficaz quanto a das imagens selecionadas. 
 
